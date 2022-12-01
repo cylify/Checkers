@@ -15,10 +15,10 @@ public class Main {
         PrintMenu();
 
         if(askIfPlay()) {
-            player1 = new HumanPlayer(true);
-            player2 = new HumanPlayer(false);
+            player1 = new ActualPlayer(true);
+            player2 = new ActualPlayer(false);
         } else {         
-            player1 = new HumanPlayer(true);
+            player1 = new ActualPlayer(true);
             player2 = new AIPlayer(false);
         }
 

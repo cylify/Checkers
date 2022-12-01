@@ -1,11 +1,11 @@
 import java.util.Scanner;
 
-public class HumanPlayer extends Player {
+public class ActualPlayer extends Player {
     Scanner in = new Scanner(System.in);    
     boolean isWhite;
     
 
-    public HumanPlayer(boolean isWhite) {
+    public ActualPlayer(boolean isWhite) {
 		this.isWhite = isWhite;
     }
 
