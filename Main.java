@@ -19,7 +19,7 @@ public class Main {
             player2 = new HumanPlayer(false);
         } else {         
             player1 = new HumanPlayer(true);
-            player2 = new HumanPlayer(false);
+            player2 = new AIPlayer(false);
         }
 
         clearScreen();
@@ -38,11 +38,14 @@ public class Main {
     public static void PrintMenu() {
         // Clear the screen before printing
         clearScreen();
-        // Print instructions
+        // Print intructions and info
         System.out.println("---------Welcome to checkers!---------\n");
-        System.out.println("This program allows you and one other to play checkers!\n");
+        System.out.println("This program allows you to play checkers!\n");
+        System.out.println("You are able to have both a PvE and PvP experience\n");
+        System.out.println("You are able to play locally with a friend or with an AI\n");
         System.out.println("Enter 'exit' to exit at any point (or 0 when moving a piece).\n");
-        System.out.println("\nPlease enter [1] if you would like to play!");
+        System.out.println("\nPlease enter [1] if you would like to play locally!");
+        System.out.println("\nPlease enter [2] if you would like to play with an AI!");
     }
 
 
