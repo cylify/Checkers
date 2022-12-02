@@ -38,15 +38,15 @@ public class Piece {
         String pieceSymbol;
 
         if(isWhite)
-			pieceSymbol = "\u2616";
-        else
 			pieceSymbol = "\u2617";
+        else
+			pieceSymbol = "\u2616";
 
         if(isKing)
             if (isWhite)
-                pieceSymbol = "\u26C9 ";
-            else
                 pieceSymbol = "\u26CA ";
+            else
+                pieceSymbol = "\u26C9 ";
         else
 			pieceSymbol += " ";
 
