@@ -79,7 +79,7 @@ public class ActualPlayer extends Player {
     }
     
 
-    private Piece getPieceFromUser(Board board) {
+    private Piece getPieceFromUser(Board board) throws IllegalArgumentException {
         while (true) {       
             String raw;
 
@@ -90,7 +90,7 @@ public class ActualPlayer extends Player {
                     Main.endGameNow();
                     return null;
                 } else if (raw.length() < 2)
-                    throw new Exception();
+                throw new IllegalArgumentException("Not valid input");  
                     
                 char letterChar = raw.charAt(0);
                 char numberChar = raw.charAt(1);
@@ -103,7 +103,7 @@ public class ActualPlayer extends Player {
                 int y = numberChar - 48 - 1;
 
                 if (board.isOverEdge(x, y))
-                    throw new Exception();              
+                throw new IllegalArgumentException("Not valid input");               
 
                 Piece userPiece = board.getValueAt(x, y);
 
@@ -113,7 +113,7 @@ public class ActualPlayer extends Player {
                     System.out.println("That's not your piece!\n");
                 else
                     return userPiece;  
-            } catch(Exception e) {
+            } catch(IllegalArgumentException e) {
                System.out.println("Please enter a coordinate on the board in the form '[letter][number]'.");
                continue;
             }
@@ -121,7 +121,7 @@ public class ActualPlayer extends Player {
     }
 
 
-    private Move getMoveFromUser(Move[] possibleMoves) {
+    private Move getMoveFromUser(Move[] possibleMoves) throws IllegalArgumentException {
         int moveNum;
 
         while (true) {       
@@ -133,10 +133,10 @@ public class ActualPlayer extends Player {
                 if (moveNum == 0) {
                     return null;
                 } else if (moveNum > possibleMoves.length)
-                    throw new Exception();                    
+                    throw new IllegalArgumentException("Not valid input");                    
 
                 return possibleMoves[moveNum - 1];
-            } catch (Exception e) {
+            } catch (IllegalArgumentException e) {
                System.out.println("Please enter one of the numbers on the board or 0 to exit.");
                in.nextLine();
             }
