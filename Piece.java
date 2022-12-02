@@ -7,12 +7,22 @@ public class Piece {
     private boolean isKing = false;
     public boolean isWhite;
 
+    /**
+     * Constructer for Piece
+     * @param x x coord of piece
+     * @param y y coord of piece
+     * @param isWhite if piece is black or white
+     */
     public Piece(int x, int y, boolean isWhite) {
         this.x = x;
         this.y = y;
 		this.isWhite = isWhite;
     }
 
+    /**
+     * Get coordinate of piece
+     * @return Returns 2 element array of piece's coordinates
+     */
     public int[] getCoordinates() {
         int[] coordinates = new int[2];
         coordinates[0] = this.x;
@@ -20,6 +30,10 @@ public class Piece {
         return coordinates;
     }
     
+    /**
+     * Piece type to String
+     * @return Returns String version of piece
+     */
     public String getString() {
         String pieceSymbol;
 
@@ -39,23 +53,38 @@ public class Piece {
         return pieceSymbol;
     }
 
+    /**
+     * Sets piece to King
+     */
     private void setKing() {
         isKing = true;
     }
     
-
+    /**
+     * Check if piece should be a king
+     * @param board What board is being checked
+     */
     public void checkIfShouldBeKing(Board board) {
         if(isWhite && this.y == board.size - 1 || 
             !isWhite && this.y == 0)
             this.setKing();
     }
 
-
+    /**
+     * Move piece on board
+     * @param x x coord of move
+     * @param y y coord of move
+     */
     public void moveTo(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     * 
+     * @param board board to check
+     * @return Returns all possible moves of piece
+     */
     public Move[] getAllPossibleMoves(Board board) {
         ArrayList<Move> moves = new ArrayList<Move>();
 

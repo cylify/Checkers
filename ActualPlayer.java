@@ -130,7 +130,7 @@ public class ActualPlayer extends Player {
                 moveNum = in.nextInt();
                 in.nextLine();
 
-                if (moveNum == 0) {
+                if(moveNum == 0) {
                     return null;
                 } else if (moveNum > possibleMoves.length)
                     throw new IllegalArgumentException("Not valid input");                    

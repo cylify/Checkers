@@ -5,6 +5,15 @@ public class Move {
     Move precedingMove;
     boolean isJump;
     
+    /**
+     * Constructer
+     * @param x1 
+     * @param y1
+     * @param x2
+     * @param y2
+     * @param precedingMove
+     * @param isJump
+     */
     public Move(int x1, int y1, int x2, int y2, Move precedingMove, boolean isJump) {
         this.x1 = x1;
         this.y1 = y1;
@@ -14,7 +23,10 @@ public class Move {
         this.isJump = isJump;
     }
 
-
+    /**
+     * 
+     * @return
+     */
     public int[] getStartingPosition() {
         int[] position = new int[2];
         position[0] = x1;
@@ -22,6 +34,10 @@ public class Move {
         return position;
     }
 
+    /**
+     * 
+     * @return
+     */
     public int[] getEndingPosition() {
         int[] position = new int[2];
         position[0] = x2;
@@ -29,7 +45,11 @@ public class Move {
         return position;
     }
     
-
+    /**
+     * 
+     * @param board
+     * @return
+     */
     public Piece[] getJumpedPieces(Board board) {
         if(isJump) {
             ArrayList<Piece> pieces = new ArrayList<Piece>();

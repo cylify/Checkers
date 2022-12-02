@@ -90,7 +90,7 @@ public class Main {
             // For each movable piece
             int movableWhiteNum = 0;
             int movableBlackNum = 0;
-            for(int pos = 0; pos < board.size*board.size; pos++) {
+            for(int pos = 0; pos < board.size * board.size; pos++) {
                 Piece pieceHere = board.getValueAt(pos);
                 if(pieceHere != null) {
                     Move[] movesHere = pieceHere.getAllPossibleMoves(board);
