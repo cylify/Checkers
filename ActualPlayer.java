@@ -4,12 +4,18 @@ public class ActualPlayer extends Player {
     Scanner in = new Scanner(System.in);    
     boolean isWhite;
     
-
+    /**
+     * Constructor
+     * @param isWhite
+     */
     public ActualPlayer(boolean isWhite) {
 		this.isWhite = isWhite;
     }
 
-
+    /**
+     * @param board
+     * @return Returns board
+     */
     public Board getMove(Board board) {        
         displayBoard(board, null);
 
