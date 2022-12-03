@@ -1,6 +1,5 @@
 import java.util.HashMap;
 import java.util.Map.Entry;
-import java.util.Objects;
 import java.util.Random;
 
 public class Computer extends Player {
@@ -51,38 +50,13 @@ public class Computer extends Player {
             Move[] possibleMoves = possibleChoices.get(piece);
             Move maxJumpMove = possibleMoves[0];
             int maxJumpMoveLength = 0;
-            // Iterate through possible moves and keep track of jumped numbers
-            for(int i = 0; i < possibleMoves.length; i++) {
-                Piece[] jumpedPieces = possibleMoves[i].getJumpedPieces(board);
-                // Get jump length by num of pieces jumped, ignore if not jump move
-                if(jumpedPieces != null) {
-                    int jumpLength = jumpedPieces.length;
-                    if(jumpLength >= maxJumpMoveLength) {
-                        maxJumpMoveLength = jumpLength;
-                        maxJumpMove = possibleMoves[i];
-                    }
-                }
-            }
-            // Add best move to Map for piece
-            bestMovesPerPiece.put(maxJumpMove, piece);
+            GoThroughMoves(possibleMoves, maxJumpMoveLength, board, maxJumpMove, furthestForwardPiece, bestMovesPerPiece);
         }
 
         Move absoluteBestMove = bestMovesPerPiece.keySet().toArray(new Move[1])[0];
         int absoluteBestMoveJumpLength = 0;
         // Go through all best moves for piece and get best
-        for(Move move : bestMovesPerPiece.keySet()) {
-            // Get length of piece's best move's jump
-            Piece[] jumpedPieces = move.getJumpedPieces(board);
-            
-            if(jumpedPieces != null) {
-                int thisBestMoveJumpLength = jumpedPieces.length;
-                // If move is better than previous then apply else keep same 
-                if(thisBestMoveJumpLength >= absoluteBestMoveJumpLength) {
-                    absoluteBestMoveJumpLength = thisBestMoveJumpLength;
-                    absoluteBestMove = move;
-                }
-            }
-        }
+        GetBestMoveForPiece(absoluteBestMoveJumpLength, absoluteBestMove, bestMovesPerPiece, board);
 
         // If jump to apply, apply it
         if(absoluteBestMoveJumpLength > 0) {
@@ -98,6 +72,57 @@ public class Computer extends Player {
         }
 
         return board;
+    }
+
+    public void GoThroughMoves(Move[] possibleMoves, int maxJumpMoveLength, Board board, Move maxJumpMove, 
+    Piece piece, HashMap<Move, Piece> bestMovesPerPiece) {
+        // Iterate through possible moves and keep track of jumped numbers
+        for(int i = 0; i < possibleMoves.length; i++) {
+            Piece[] jumpedPieces = possibleMoves[i].getJumpedPieces(board);
+            // Get jump length by num of pieces jumped, ignore if not jump move
+            if(jumpedPieces != null) {
+                int jumpLength = jumpedPieces.length;
+                if(jumpLength >= maxJumpMoveLength) {
+                    maxJumpMoveLength = jumpLength;
+                    maxJumpMove = possibleMoves[i];
+                }
+            }
+        }
+        // Add best move to Map for piece
+        bestMovesPerPiece.put(maxJumpMove, piece);
+    }
+
+    public void ChooseMove(int absoluteBestMoveJumpLength, Board board, HashMap<Move, Piece> bestMovesPerPiece,
+    Move absoluteBestMove, Piece furthestBackwardPiece, Piece furthestForwardPiece) {
+        // If jump to apply, apply it
+        if(absoluteBestMoveJumpLength > 0) {
+            board.applyMoveToBoard(absoluteBestMove, bestMovesPerPiece.get(absoluteBestMove));
+        // Otherwise, choose 50/50 chance (which is random) to apply furthest back or furthest forward piece 
+        } else {
+            int randomNum = new Random().nextInt(2);
+            if(randomNum == 0) {
+                board.applyMoveToBoard(getKeyByValue(bestMovesPerPiece, furthestBackwardPiece), furthestBackwardPiece);
+            } else {
+                board.applyMoveToBoard(getKeyByValue(bestMovesPerPiece, furthestForwardPiece), furthestForwardPiece);
+            }
+        }
+    }
+
+    public void GetBestMoveForPiece(int absoluteBestMoveJumpLength, Move absoluteBestMove, HashMap<Move, Piece> bestMovesPerPiece, Board board) {
+        // Go through all best moves for piece and get best
+        for(Move move : bestMovesPerPiece.keySet()) {
+            // Get length of piece's best move's jump
+            Piece[] jumpedPieces = move.getJumpedPieces(board);
+            
+            if(jumpedPieces != null) {
+                int thisBestMoveJumpLength = jumpedPieces.length;
+                // If move is better than previous then apply else keep same 
+                if(thisBestMoveJumpLength >= absoluteBestMoveJumpLength) {
+                    absoluteBestMoveJumpLength = thisBestMoveJumpLength;
+                    absoluteBestMove = move;
+                }
+            }
+        }
     }
 
     /**
