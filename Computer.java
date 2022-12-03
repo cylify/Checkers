@@ -9,7 +9,6 @@ public class Computer extends Player {
 
     /**
      * Constructer
-     * 
      * @param isWhite colour of "player"
      */
     public Computer(boolean isWhite) {
@@ -17,8 +16,7 @@ public class Computer extends Player {
     }
 
     /**
-     * Gets move of AI
-     * 
+     * Gets move of "AI"
      * @param board board to apply move
      * @return Returns board which has been modified due to AI move
      */
@@ -27,21 +25,7 @@ public class Computer extends Player {
         // HashMap of possible pieces and their moves
         HashMap<Piece, Move[]> possibleChoices = new HashMap<Piece, Move[]>();
 
-        // Loop over all pieces on board until you find piece that works
-        for(int x = 0; x < board.size; x++) {
-            for(int y = 0; y < board.size; y++) {
-                Piece piece = board.getValueAt(x, y);
-                // If piece is same colour as our piece
-                if(piece != null && piece.isWhite == this.isWhite) {
-                    // Get the moves of piece
-                    Move[] possibleMoves = piece.getAllPossibleMoves(board);
-                    // Put move with piece in HashMap if there is at least one
-                    // If not, nothing is done
-                    if(possibleMoves != null)
-                        possibleChoices.put(piece, possibleMoves);
-                }
-            }
-        }
+        GetWorkingPiece(board, possibleChoices);
 
         // Keep track of furthest back and forward piece to alternate between
         Piece furthestBackwardPiece = possibleChoices.keySet().toArray(new Piece[1])[0];
@@ -116,17 +100,43 @@ public class Computer extends Player {
         return board;
     }
 
+    /**
+     * Gets best working piece for current board
+     * Helper method
+     * @param board
+     * @param possibleChoices
+     */
+    public void GetWorkingPiece(Board board, HashMap<Piece, Move[]> possibleChoices) {
+        // Loop over all pieces on board until you find piece that works
+        for(int x = 0; x < board.size; x++) {
+            for(int y = 0; y < board.size; y++) {
+                Piece piece = board.getValueAt(x, y);
+                // If piece is same colour as our piece
+                if(piece != null && piece.isWhite == this.isWhite) {
+                    // Get the moves of piece
+                    Move[] possibleMoves = piece.getAllPossibleMoves(board);
+                    // Put move with piece in HashMap if there is at least one
+                    // If not, nothing is done
+                    if(possibleMoves != null)
+                        possibleChoices.put(piece, possibleMoves);
+                }
+            }
+        }
+    }
+
 
     /**
-     * Note: Copied from http://stackoverflow.com/a/2904266
      * Returns Key found in HashMap given value
      * @param map Map to search
      * @param value Val to search for
      * @return Returns key found in map, returns null if not found
      */
     private <T, E> T getKeyByValue(HashMap<T, E> map, E value) {
-        for (Entry<T, E> entry : map.entrySet()) {
-            if (Objects.equals(value, entry.getValue())) {
+        // Go through map entry, T, E are generic types in map
+        for(Entry<T, E> entry : map.entrySet()) {
+            // Checks if val in map is same as val to search
+            if(value.equals(entry.getValue())) {
+                // If so return key
                 return entry.getKey();
             }
         }
