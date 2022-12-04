@@ -79,30 +79,38 @@ public class Board {
 
                     if(possibleMoves != null) {
                         boolean moveFound = false;
-                        
-                        for(int i = 0; i < possibleMoves.length; i++) {
-                            int[] move = possibleMoves[i].getEndingPosition();
-                            if(move[0] == x && move[1] == y) {
-                                System.out.print("| " + Integer.toString(i + 1) + " ");
-                                moveFound = true;
-                            }
-                        }
+                    
+                        ifMovesFound(possibleMoves, moveFound, x, y);
 
                         if(moveFound)
                             continue;
                     }
-
-                    if(thisPiece != null)
-                        System.out.print("| " + thisPiece.getString());
-                    else if(board.isCheckerboardSpace(x, y))
-                        System.out.print("| . ");
-                    else
-                        System.out.print("|   ");
+                    applySquare(thisPiece, x, y, board);
                 }
             }
             System.out.println();
         }
     }
+
+    public static void ifMovesFound(Move[] possibleMoves, boolean moveFound, int x, int y) {
+        for(int i = 0; i < possibleMoves.length; i++) {
+            int[] move = possibleMoves[i].getEndingPosition();
+            if(move[0] == x && move[1] == y) {
+                System.out.print("| " + Integer.toString(i + 1) + " ");
+                moveFound = true;
+            }
+        }
+    }
+
+    public static void applySquare(Piece thisPiece, int x, int y, Board board) {
+        if(thisPiece != null)
+            System.out.print("| " + thisPiece.getString());
+        else if(board.isCheckerboardSpace(x, y))
+            System.out.print("| . ");
+        else
+            System.out.print("|   ");
+    }
+
 
     /**
      * 
@@ -112,16 +120,6 @@ public class Board {
      */
     private void setValueAt(int x, int y, Piece piece) {
         this.board[y][x] = piece;
-    }
-
-    /**
-     * 
-     * @param position
-     * @param piece
-     */
-    private void setValueAt(int position, Piece piece) {
-        int[] coords = getCoordinatesFromPosition(position);
-        this.setValueAt(coords[0], coords[1], piece);
     }
 
     /**
@@ -177,7 +175,7 @@ public class Board {
     }
 
     /**
-     * 
+     * Checks if coord of piece is over the edge of board
      * @param x
      * @param y
      * @return

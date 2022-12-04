@@ -81,7 +81,7 @@ public class Piece {
     }
 
     /**
-     * 
+     * Get all possible moves given board
      * @param board board to check
      * @return Returns all possible moves of piece
      */
@@ -127,8 +127,14 @@ public class Piece {
     }
 
 
+    /**
+     * Finds all jumping moves from piece
+     * Uses recursion to do this; for each move, a new "imaginary" piece will be created
+     * @param board Board to work with
+     * @param precedingMove 
+     * @return
+     */
     private Move[] getAllPossibleJumps(Board board, Move precedingMove) {
-
         ArrayList<Move> moves = new ArrayList<Move>();
 
         int startingY, yIncrement;
@@ -144,39 +150,56 @@ public class Piece {
         int rowsToCheck = 1;
         if(this.isKing)
             rowsToCheck = 2;
-              
+            
+        // Iterate over 4 spaces where non-jumping moves are possible
         for(int x = this.x - 2; x <= this.x + 2; x += 4) {
             int y = startingY - yIncrement;
-            for(int i = 0; i < rowsToCheck; i++) {
-
-                y += yIncrement;
-
-                if(board.isOverEdge(x, y))
-                    continue;
-
-                if(precedingMove != null &&
-                    x == precedingMove.getStartingPosition()[0] && 
-                    y == precedingMove.getStartingPosition()[1])
-                    continue;
-
-                Piece betweenPiece = board.getValueAt( (this.x + x)/2 , (this.y + y)/2 );
-                if(betweenPiece != null && betweenPiece.isWhite != this.isWhite && board.getValueAt(x, y) == null) {
-                    Move jumpingMove = new Move(this.x, this.y, x, y, precedingMove, true);
-                    moves.add(jumpingMove);
-                    Piece imaginaryPiece = new Piece(x, y, this.isWhite);
-               		if(this.isKing) imaginaryPiece.setKing();
-                    Move[] subsequentMoves = imaginaryPiece.getAllPossibleJumps(board, jumpingMove);
-                    if(subsequentMoves != null)
-                        moves.addAll(Arrays.asList(subsequentMoves));
-                }
-            }
+            GoOverRows(y, rowsToCheck, yIncrement, board, precedingMove, moves);
         }
 
+        // If there are moves, then shorten and return ArrayList as normal Array
         if(!moves.isEmpty()) {
             moves.trimToSize();
             return moves.toArray(new Move[1]);
         } else {
+            // Otherwise return null to show no moves
             return null;
 		}
+    }
+
+    
+    public void GoOverRows(int y, int rowsToCheck, int yIncrement, Board board, Move precedingMove, ArrayList<Move> moves) {
+        // Go over rows
+        for(int i = 0; i < rowsToCheck; i++) {
+            // Increment y if needed (Will have no effect if only 1 iteration is run)
+            y += yIncrement;
+
+            // if going over board, skip this iteration
+            if(board.isOverEdge(x, y))
+                continue;
+
+            if(precedingMove != null && x == precedingMove.getStartingPosition()[0] && y == precedingMove.getStartingPosition()[1])
+                continue;
+
+            // Check if different coloured piece is between average of our position and the starting point
+            // Also check if there is no piece is planned landing space
+            Piece betweenPiece = board.getValueAt((this.x + x)/2, (this.y + y)/2);
+            if(betweenPiece != null && betweenPiece.isWhite != this.isWhite && board.getValueAt(x, y) == null) {
+                // If works then add jumping move there and note that is jump
+                Move jumpingMove = new Move(this.x, this.y, x, y, precedingMove, true);
+                // Add to list
+                moves.add(jumpingMove);
+                // Create imaginary piece to check for more jumps
+                Piece imaginaryPiece = new Piece(x, y, this.isWhite);
+                // If piece is King make imaginary piece King as well
+                if(this.isKing) imaginaryPiece.setKing();
+
+                // Find possible subsequent moves 
+                Move[] subsequentMoves = imaginaryPiece.getAllPossibleJumps(board, jumpingMove);
+                // If they exist then add to list
+                if(subsequentMoves != null)
+                    moves.addAll(Arrays.asList(subsequentMoves));
+            }
+        }
     }
 }
