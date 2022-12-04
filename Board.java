@@ -68,49 +68,41 @@ public class Board {
             for(int x = -1; x < board.size; x++) {
                 if(y == -1) {
                     if(x != -1)
-                        System.out.print("-" + (x + 1) + "- ");
+                        System.out.print("-" + (char)(x + 65) + "- ");
                     else
                         System.out.print("     ");
                 } else if(x == -1) {
                     if(y != -1)
-                        System.out.print("-" + (char)(y + 65) + "- ");
+                        System.out.print("-" + (y + 1) + "- ");
                 } else {
                     Piece thisPiece = board.getValueAt(x, y);
 
                     if(possibleMoves != null) {
                         boolean moveFound = false;
-                    
-                        ifMovesFound(possibleMoves, moveFound, x, y);
+                        
+                        for(int i = 0; i < possibleMoves.length; i++) {
+                            int[] move = possibleMoves[i].getEndingPosition();
+                            if(move[0] == x && move[1] == y) {
+                                System.out.print("| " + Integer.toString(i + 1) + " ");
+                                moveFound = true;
+                            }
+                        }
 
                         if(moveFound)
                             continue;
                     }
-                    applySquare(thisPiece, x, y, board);
+
+                    if(thisPiece != null)
+                        System.out.print("| " + thisPiece.getString());
+                    else if(board.isCheckerboardSpace(x, y))
+                        System.out.print("| . ");
+                    else
+                        System.out.print("|   ");
                 }
             }
             System.out.println();
         }
     }
-
-    public static void ifMovesFound(Move[] possibleMoves, boolean moveFound, int x, int y) {
-        for(int i = 0; i < possibleMoves.length; i++) {
-            int[] move = possibleMoves[i].getEndingPosition();
-            if(move[0] == x && move[1] == y) {
-                System.out.print("| " + Integer.toString(i + 1) + " ");
-                moveFound = true;
-            }
-        }
-    }
-
-    public static void applySquare(Piece thisPiece, int x, int y, Board board) {
-        if(thisPiece != null)
-            System.out.print("| " + thisPiece.getString());
-        else if(board.isCheckerboardSpace(x, y))
-            System.out.print("| . ");
-        else
-            System.out.print("|   ");
-    }
-
 
     /**
      * 
@@ -121,6 +113,7 @@ public class Board {
     private void setValueAt(int x, int y, Piece piece) {
         this.board[y][x] = piece;
     }
+
 
     /**
      * 
@@ -175,7 +168,7 @@ public class Board {
     }
 
     /**
-     * Checks if coord of piece is over the edge of board
+     * 
      * @param x
      * @param y
      * @return
