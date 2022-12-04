@@ -31,27 +31,7 @@ public class Computer extends Player {
         Piece furthestForwardPiece = possibleChoices.keySet().toArray(new Piece[1])[0];
 
         HashMap<Move, Piece> bestMovesPerPiece = new HashMap<Move, Piece>();
-        // Iterate over collected possible choices and check for best choice
-        for(Piece piece : possibleChoices.keySet()) {
-            // Check if furthest back or forward
-            int thisPieceY = piece.getCoordinates()[1];
-            if(thisPieceY > furthestForwardPiece.getCoordinates()[1]) {
-                if(isWhite)
-                    furthestForwardPiece = piece;
-                else
-                    furthestBackwardPiece = piece;
-            } else if(thisPieceY < furthestBackwardPiece.getCoordinates()[1]) {
-                if(isWhite)
-                    furthestBackwardPiece = piece;
-                else
-                    furthestForwardPiece = piece;
-            }
-
-            Move[] possibleMoves = possibleChoices.get(piece);
-            Move maxJumpMove = possibleMoves[0];
-            int maxJumpMoveLength = 0;
-            GoThroughMoves(possibleMoves, maxJumpMoveLength, board, maxJumpMove, furthestForwardPiece, bestMovesPerPiece);
-        }
+        CheckMove(possibleChoices, bestMovesPerPiece, furthestBackwardPiece, furthestForwardPiece, board);
 
         Move absoluteBestMove = bestMovesPerPiece.keySet().toArray(new Move[1])[0];
         int absoluteBestMoveJumpLength = 0;
@@ -72,6 +52,30 @@ public class Computer extends Player {
         }
 
         return board;
+    }
+
+    public void CheckMove(HashMap<Piece, Move[]> possibleChoices, HashMap<Move, Piece> bestMovesPerPiece, Piece furthestBackwardPiece, Piece furthestForwardPiece, Board board) {
+        // Iterate over collected possible choices and check for best choice
+        for(Piece piece : possibleChoices.keySet()) {
+            // Check if furthest back or forward
+            int thisPieceY = piece.getCoordinates()[1];
+            if(thisPieceY > furthestForwardPiece.getCoordinates()[1]) {
+                if(isWhite)
+                    furthestForwardPiece = piece;
+                else
+                    furthestBackwardPiece = piece;
+            } else if(thisPieceY < furthestBackwardPiece.getCoordinates()[1]) {
+                if(isWhite)
+                    furthestBackwardPiece = piece;
+                else
+                    furthestForwardPiece = piece;
+            }
+    
+            Move[] possibleMoves = possibleChoices.get(piece);
+            Move maxJumpMove = possibleMoves[0];
+            int maxJumpMoveLength = 0;
+            GoThroughMoves(possibleMoves, maxJumpMoveLength, board, maxJumpMove, furthestForwardPiece, bestMovesPerPiece);
+        }
     }
 
     public void GoThroughMoves(Move[] possibleMoves, int maxJumpMoveLength, Board board, Move maxJumpMove, 
