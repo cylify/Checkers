@@ -68,12 +68,12 @@ public class Board {
             for(int x = -1; x < board.size; x++) {
                 if(y == -1) {
                     if(x != -1)
-                        System.out.print("-" + (char)(x + 65) + "- ");
+                        System.out.print("-" + (x + 1) + "- ");
                     else
                         System.out.print("     ");
                 } else if(x == -1) {
                     if(y != -1)
-                        System.out.print("-" + (y + 1) + "- ");
+                        System.out.print("-" + (char)(y + 65) + "- ");
                 } else {
                     Piece thisPiece = board.getValueAt(x, y);
 
