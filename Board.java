@@ -62,7 +62,7 @@ public class Board {
 
 
     public static void displayBoard(Board board, Move[] possibleMoves) {
-        Main.clearScreen();
+        RunCheckers.clearScreen();
 
         for(int y = -1; y < board.size; y++) {
             for(int x = -1; x < board.size; x++) {
@@ -94,7 +94,7 @@ public class Board {
 
                     if(thisPiece != null)
                         System.out.print("| " + thisPiece.getString());
-                    else if (board.isCheckerboardSpace(x, y))
+                    else if(board.isCheckerboardSpace(x, y))
                         System.out.print("| . ");
                     else
                         System.out.print("|   ");
