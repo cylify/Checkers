@@ -44,9 +44,9 @@ public class Piece {
 
         if(isKing)
             if (isWhite)
-                pieceSymbol = "\u26CA ";
+                pieceSymbol = "\u26CA";
             else
-                pieceSymbol = "\u26C9 ";
+                pieceSymbol = "\u26C9";
         else
 			pieceSymbol += " ";
 

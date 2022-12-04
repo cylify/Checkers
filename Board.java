@@ -60,6 +60,50 @@ public class Board {
         this.setValueAt(moveEndingPos[0], moveEndingPos[1], piece);
     }
 
+
+    public static void displayBoard(Board board, Move[] possibleMoves) {
+        Main.clearScreen();
+
+        for(int y = -1; y < board.size; y++) {
+            for(int x = -1; x < board.size; x++) {
+                if(y == -1) {
+                    if(x != -1)
+                        System.out.print("-" + (char)(x + 65) + "- ");
+                    else
+                        System.out.print("     ");
+                } else if(x == -1) {
+                    if(y != -1)
+                        System.out.print("-" + (y + 1) + "- ");
+                } else {
+                    Piece thisPiece = board.getValueAt(x, y);
+
+                    if(possibleMoves != null) {
+                        boolean moveFound = false;
+                        
+                        for(int i = 0; i < possibleMoves.length; i++) {
+                            int[] move = possibleMoves[i].getEndingPosition();
+                            if(move[0] == x && move[1] == y) {
+                                System.out.print("| " + Integer.toString(i + 1) + " ");
+                                moveFound = true;
+                            }
+                        }
+
+                        if(moveFound)
+                            continue;
+                    }
+
+                    if(thisPiece != null)
+                        System.out.print("| " + thisPiece.getString());
+                    else if (board.isCheckerboardSpace(x, y))
+                        System.out.print("| . ");
+                    else
+                        System.out.print("|   ");
+                }
+            }
+            System.out.println();
+        }
+    }
+
     /**
      * 
      * @param x
