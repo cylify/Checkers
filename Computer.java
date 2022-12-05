@@ -115,14 +115,14 @@ public class Computer extends Player {
 
 
     /**
-     * Returns Key found in HashMap given value
+     * Returns Move found in HashMap given Piece
      * @param map Map to search
-     * @param value Val to search for
-     * @return Returns key found in map, returns null if not found
+     * @param value Piece to search for
+     * @return Returns Move found in map, returns null if not found
      */
-    private <T, E> T getKeyByValue(HashMap<T, E> map, E value) {
-        // Go through map entry, T, E are generic types in map
-        for(Entry<T, E> entry : map.entrySet()) {
+    private Move getKeyByValue(HashMap<Move, Piece> map, Piece value) {
+        // Go through map entry
+        for(Entry<Move, Piece> entry : map.entrySet()) {
             // Checks if val in map is same as val to search
             if(value.equals(entry.getValue())) {
                 // If so return key
