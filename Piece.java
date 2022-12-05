@@ -19,6 +19,8 @@ public class Piece {
 		this.isWhite = isWhite;
     }
 
+
+
     /**
      * Get coordinate of piece
      * @return Returns 2 element array of piece's coordinates
@@ -98,21 +100,10 @@ public class Piece {
         }
 
         int rowsToCheck = 1;
-        if (this.isKing)
-            rowsToCheck = 2;
+        if(this.isKing) rowsToCheck = 2;
   
-        for (int x = this.x - 1; x <= this.x + 1; x += 2) {
-            int y = startingY - yIncrement;
-            for (int i = 0; i < rowsToCheck; i++) {
-                y += yIncrement;
-
-                if (board.isOverEdge(x, y))
-                    continue;
-                if (board.getValueAt(x, y) == null) {
-                    moves.add(new Move(this.x, this.y, x, y, null, false)); 
-                }
-            }
-        }
+    
+        moves = addMoves(moves, board, yIncrement, startingY, rowsToCheck);
 
         Move[] possibleJumps = this.getAllPossibleJumps(board, null);
         if(possibleJumps != null)
@@ -121,11 +112,23 @@ public class Piece {
         if(!moves.isEmpty()) {
             moves.trimToSize();
             return moves.toArray(new Move[1]);
-        } else {
-            return null;
-		}
+        } else { return null; }
     }
 
+
+    public ArrayList<Move> addMoves(ArrayList<Move> moves, Board board, int yIncrement, int startingY, int rowsToCheck) {
+        for(int x = this.x - 1; x <= this.x + 1; x += 2) {
+            int y = startingY - yIncrement;
+            for(int i = 0; i < rowsToCheck; i++) { y += yIncrement;
+
+                if(board.isOverEdge(x, y)) continue;
+                if(board.getValueAt(x, y) == null) {
+                    moves.add(new Move(this.x, this.y, x, y, null, false)); 
+                }
+            }
+        }
+        return moves;
+    }
 
     /**
      * Finds all jumping moves from piece
@@ -195,6 +198,38 @@ public class Piece {
             // Otherwise return null to show no moves
             return null;
 		}
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
+
+    public boolean isKing() {
+        return isKing;
+    }
+
+    public void setKing(boolean isKing) {
+        this.isKing = isKing;
+    }
+
+    public boolean isWhite() {
+        return isWhite;
+    }
+
+    public void setWhite(boolean isWhite) {
+        this.isWhite = isWhite;
     }
 
 }

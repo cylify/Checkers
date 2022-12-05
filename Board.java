@@ -67,41 +67,45 @@ public class Board {
         for(int y = -1; y < board.size; y++) {
             for(int x = -1; x < board.size; x++) {
                 if(y == -1) {
-                    if(x != -1)
-                        System.out.print("-" + (char)(x + 65) + "- ");
+                    if(x != -1) System.out.print("-" + (char)(x + 65) + "- ");
                     else
                         System.out.print("     ");
                 } else if(x == -1) {
-                    if(y != -1)
-                        System.out.print("-" + (y + 1) + "- ");
+                    if(y != -1) System.out.print("-" + (y + 1) + "- ");
                 } else {
                     Piece thisPiece = board.getValueAt(x, y);
 
                     if(possibleMoves != null) {
                         boolean moveFound = false;
-                        
-                        for(int i = 0; i < possibleMoves.length; i++) {
-                            int[] move = possibleMoves[i].getEndingPosition();
-                            if(move[0] == x && move[1] == y) {
-                                System.out.print("| " + Integer.toString(i + 1) + " ");
-                                moveFound = true;
-                            }
-                        }
 
-                        if(moveFound)
-                            continue;
+                        moveFound = BoolMove(moveFound, possibleMoves, x, y);
+                        if(moveFound) continue;
                     }
-
-                    if(thisPiece != null)
-                        System.out.print("| " + thisPiece.getString());
-                    else if(board.isCheckerboardSpace(x, y))
-                        System.out.print("| . ");
-                    else
-                        System.out.print("|   ");
+                    PrintSpaces(thisPiece, board, x, y);
                 }
             }
             System.out.println();
         }
+    }
+
+    public static void PrintSpaces(Piece thisPiece, Board board, int x, int y) {
+        if (thisPiece != null)
+            System.out.print("| " + thisPiece.getString());
+        else if (board.isCheckerboardSpace(x, y))
+            System.out.print("| . ");
+        else
+            System.out.print("|   ");
+    }
+
+    public static boolean BoolMove(Boolean moveFound, Move[] possibleMoves, int x, int y) {
+        for (int i = 0; i < possibleMoves.length; i++) {
+            int[] move = possibleMoves[i].getEndingPosition();
+            if (move[0] == x && move[1] == y) {
+                System.out.print("| " + Integer.toString(i + 1) + " ");
+                moveFound = true;
+            }
+        }
+        return moveFound;
     }
 
     /**
@@ -185,5 +189,21 @@ public class Board {
     public boolean isOverEdge(int position) {
         int[] coords = getCoordinatesFromPosition(position);
         return this.isOverEdge(coords[0], coords[1]);
+    }
+
+    public Piece[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(Piece[][] board) {
+        this.board = board;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
     }
 }
