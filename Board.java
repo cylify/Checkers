@@ -70,19 +70,24 @@ public class Board {
      * @param possibleMoves Represents the possible moves.
      */
     public static void displayBoard(Board board, Move[] possibleMoves) {
+        // Clear screen
         RunCheckers.clearScreen();
 
+        // Include hidden top row for coords
         for (int y = -1; y < board.size; y++) {
+            // Include hidden left col for coords
             for (int x = -1; x < board.size; x++) {
                 if (y == -1) {
+                    // Skip hidden col
                     if (x != -1)
                         System.out.print("-" + (char) (x + 65) + "- ");
                     else
                         System.out.print("     ");
                 } else if (x == -1) {
-                    if (y != -1)
+                    if (y != -1) // Skip hidden row
                         System.out.print("-" + (y + 1) + "- ");
                 } else {
+                    // Get piece here
                     Piece thisPiece = board.getValueAt(x, y);
 
                     if (possibleMoves != null) {
