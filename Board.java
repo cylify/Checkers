@@ -3,8 +3,9 @@ public class Board {
     public int size;
 
     /**
-     * Constructer
-     * @param size Size of board
+     * Makes the board.
+     * 
+     * @param size Represents the size of the board.
      */
     public Board(int size) {
         this.board = new Piece[size][size];
@@ -13,8 +14,9 @@ public class Board {
     }
 
     /**
+     * Makes the board.
      * 
-     * @param board
+     * @param board Represents the board.
      */
     public Board(Board board) {
         this.board = board.board;
@@ -37,7 +39,8 @@ public class Board {
     }
 
     /**
-     * Apply move of piece to board
+     * Apply move of piece to board.
+     * 
      * @param move get move
      * @param piece what piece is moved
      */
