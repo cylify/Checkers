@@ -38,19 +38,7 @@ public class Computer extends Player {
             Piece[] furthPieceArr = checkChoice(thisPieceY, furthestBackwardPiece, furthestForwardPiece, furthestForwardPiece);
             furthestBackwardPiece = furthPieceArr[0];
             furthestForwardPiece = furthPieceArr[1];
-            // if(thisPieceY > furthestForwardPiece.getCoordinates()[1]) {
-            //     if(isWhite)
-            //         furthestForwardPiece = piece;
-            //     else
-            //         furthestBackwardPiece = piece;
-            // } else if(thisPieceY < furthestBackwardPiece.getCoordinates()[1]) {
-            //     if(isWhite)
-            //         furthestBackwardPiece = piece;
-            //     else
-            //         furthestForwardPiece = piece;
-            // }
 
-            // bestMovesPerPiece = findPossibleMoves(possibleChoices, furthestForwardPiece, board, bestMovesPerPiece);
             Move[] possibleMoves = possibleChoices.get(piece);
             Move maxJumpMove = possibleMoves[0];
             int maxJumpMoveLength = 0;
@@ -70,7 +58,6 @@ public class Computer extends Player {
             bestMovesPerPiece.put(maxJumpMove, piece);
         }
 
-        // board = applyBestMove(bestMovesPerPiece, board, furthestBackwardPiece, furthestForwardPiece);
         Move absoluteBestMove = bestMovesPerPiece.keySet().toArray(new Move[1])[0];
         int absoluteBestMoveJumpLength = 0;
         // Go through all best moves for piece and get best

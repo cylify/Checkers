@@ -1,7 +1,6 @@
 import java.util.Scanner;
 
 public class RunCheckers {
-
     public static final int SIZE = 8;
     private static Scanner in = new Scanner(System.in);
     private static boolean isPlayer1 = true;

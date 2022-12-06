@@ -88,12 +88,16 @@ public class Piece {
      * @return Returns all possible moves of piece
      */
     public Move[] getAllPossibleMoves(Board board) {
+        // Create list of all moves
         ArrayList<Move> moves = new ArrayList<Move>();
 
+        // Change y endpoints depending on the King-ness and color/direction of movement
         int startingY, yIncrement;
+        // If white move further down the board
         if (isWhite) {
             startingY = this.y + 1; 
             yIncrement = -2;
+        // If black move further up the board
         } else {
             startingY = this.y - 1;
             yIncrement = 2;
@@ -102,26 +106,39 @@ public class Piece {
         int rowsToCheck = 1;
         if(this.isKing) rowsToCheck = 2;
   
-    
+
         moves = addMoves(moves, board, yIncrement, startingY, rowsToCheck);
 
+        // After checking all normal moves, look for and add all possible jumps
         Move[] possibleJumps = this.getAllPossibleJumps(board, null);
         if(possibleJumps != null)
             moves.addAll(Arrays.asList(possibleJumps));
-
+        // If there are moves, return as normal array
         if(!moves.isEmpty()) {
             moves.trimToSize();
             return moves.toArray(new Move[1]);
+        // Otherwise return null
         } else { return null; }
     }
 
-
+    /**
+     * Add possible non-jumping moves
+     * @param moves Array of moves
+     * @param board board to work with
+     * @param yIncrement
+     * @param startingY
+     * @param rowsToCheck
+     * @return Array of moves
+     */
     public ArrayList<Move> addMoves(ArrayList<Move> moves, Board board, int yIncrement, int startingY, int rowsToCheck) {
+        // Go through the 4 spaces where normal moves are possible
         for(int x = this.x - 1; x <= this.x + 1; x += 2) {
+            // Go over rows
             int y = startingY - yIncrement;
-            for(int i = 0; i < rowsToCheck; i++) { y += yIncrement;
-
+            for(int i = 0; i < rowsToCheck; i++) { y += yIncrement; // Increment if needed
+                // Check if board if going over edge 
                 if(board.isOverEdge(x, y)) continue;
+                // Add move if no piece
                 if(board.getValueAt(x, y) == null) {
                     moves.add(new Move(this.x, this.y, x, y, null, false)); 
                 }
