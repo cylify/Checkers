@@ -6,8 +6,9 @@ public class ActualPlayer extends Player {
     boolean isWhite;
     
     /**
-     * Constructor
-     * @param isWhite
+     * Constructor.
+     * 
+     * @param isWhite Represents if the player is white.
      */
     public ActualPlayer(boolean isWhite) {
 		this.isWhite = isWhite;
