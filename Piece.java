@@ -183,6 +183,16 @@ public class Piece {
 		}
     }
 
+    /**
+     * Helper method to get jumping moves
+     * @param startingY
+     * @param yIncrement
+     * @param rowsToCheck
+     * @param board
+     * @param precedingMove
+     * @param moves
+     * @return Returns all moves that can be jumps
+     */
     public ArrayList<Move> getMoves(int startingY, int yIncrement, int rowsToCheck, Board board, Move precedingMove, ArrayList<Move> moves) {
         // Iterate over 4 spaces where non-jumping moves are possible
         for(int x = this.x - 2; x <= this.x + 2; x += 4) {

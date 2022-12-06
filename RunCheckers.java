@@ -5,6 +5,7 @@ public class RunCheckers {
     private static Scanner in = new Scanner(System.in);
     private static boolean isPlayer1 = true;
     private static boolean killGame = false;
+
     
     public static void main(String[] args) {
         // Create board

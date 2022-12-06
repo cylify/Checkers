@@ -30,34 +30,7 @@ public class Computer extends Player {
         Piece furthestForwardPiece = possibleChoices.keySet().toArray(new Piece[1])[0];
 
         HashMap<Move, Piece> bestMovesPerPiece = new HashMap<Move, Piece>();
-        // Iterate over collected possible choices and check for best choice
-        for(Piece piece : possibleChoices.keySet()) {
-            // Check if furthest back or forward
-            int thisPieceY = piece.getCoordinates()[1];
-
-            Piece[] furthPieceArr = checkChoice(thisPieceY, furthestBackwardPiece, furthestForwardPiece, furthestForwardPiece);
-            furthestBackwardPiece = furthPieceArr[0];
-            furthestForwardPiece = furthPieceArr[1];
-
-            Move[] possibleMoves = possibleChoices.get(piece);
-            Move maxJumpMove = possibleMoves[0];
-            int maxJumpMoveLength = 0;
-            // Iterate through possible moves and keep track of jumped numbers
-            for (int i = 0; i < possibleMoves.length; i++) {
-                Piece[] jumpedPieces = possibleMoves[i].getJumpedPieces(board);
-                // Get jump length by num of pieces jumped, ignore if not jump move
-                if (jumpedPieces != null) {
-                    int jumpLength = jumpedPieces.length;
-                    if (jumpLength >= maxJumpMoveLength) {
-                        maxJumpMoveLength = jumpLength;
-                        maxJumpMove = possibleMoves[i];
-                    }
-                }
-            }
-            // Add best move to Map for piece
-            bestMovesPerPiece.put(maxJumpMove, piece);
-        }
-
+        bestMovesPerPiece = getBestMoves(possibleChoices, furthestBackwardPiece, furthestForwardPiece, board, bestMovesPerPiece);
         Move absoluteBestMove = bestMovesPerPiece.keySet().toArray(new Move[1])[0];
         int absoluteBestMoveJumpLength = 0;
         // Go through all best moves for piece and get best
@@ -90,7 +63,56 @@ public class Computer extends Player {
         return board;
     }
 
+    /**
+     * 
+     * @param possibleChoices all possible moves for each piece
+     * @param furthestBackwardPiece 
+     * @param furthestForwardPiece
+     * @param board board to work with 
+     * @param bestMovesPerPiece
+     * @return Returns HashMap of bestMoves for each piece
+     */
+    public HashMap<Move, Piece> getBestMoves(HashMap<Piece, Move[]> possibleChoices, Piece furthestBackwardPiece, 
+    Piece furthestForwardPiece, Board board, HashMap<Move, Piece> bestMovesPerPiece) {
+        // Iterate over collected possible choices and check for best choice
+        for(Piece piece : possibleChoices.keySet()) {
+            // Check if furthest back or forward
+            int thisPieceY = piece.getCoordinates()[1];
 
+            Piece[] furthPieceArr = checkChoice(thisPieceY, furthestBackwardPiece, furthestForwardPiece, furthestForwardPiece);
+            furthestBackwardPiece = furthPieceArr[0];
+            furthestForwardPiece = furthPieceArr[1];
+
+            Move[] possibleMoves = possibleChoices.get(piece);
+            Move maxJumpMove = possibleMoves[0];
+            int maxJumpMoveLength = 0;
+            // Iterate through possible moves and keep track of jumped numbers
+            for (int i = 0; i < possibleMoves.length; i++) {
+                Piece[] jumpedPieces = possibleMoves[i].getJumpedPieces(board);
+                // Get jump length by num of pieces jumped, ignore if not jump move
+                if (jumpedPieces != null) {
+                    int jumpLength = jumpedPieces.length;
+                    if (jumpLength >= maxJumpMoveLength) {
+                        maxJumpMoveLength = jumpLength;
+                        maxJumpMove = possibleMoves[i];
+                    }
+                }
+            }
+            // Add best move to Map for piece
+            bestMovesPerPiece.put(maxJumpMove, piece);
+        }
+        return bestMovesPerPiece;
+    }
+
+
+    /**
+     * Helper method
+     * @param thisPieceY
+     * @param furthestBackwardPiece
+     * @param furthestForwardPiece
+     * @param piece
+     * @return Returns array of pieces
+     */
     public Piece[] checkChoice(int thisPieceY, Piece furthestBackwardPiece, Piece furthestForwardPiece, Piece piece) {
         if(thisPieceY > furthestForwardPiece.getCoordinates()[1]) {
             if(isWhite)
@@ -107,6 +129,12 @@ public class Computer extends Player {
         return pieceArr;
     }
 
+    /**
+     * 
+     * @param board
+     * @param possibleChoices
+     * @return Returns hashmap of all possible choices
+     */
     public HashMap<Piece, Move[]> getChoice(Board board, HashMap<Piece, Move[]> possibleChoices) {
         // Loop over all pieces on board until you find piece that works
         for (int x = 0; x < board.size; x++) {

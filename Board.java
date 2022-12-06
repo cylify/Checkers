@@ -41,8 +41,8 @@ public class Board {
     /**
      * Applies move of piece to the board.
      * 
-     * @param move Repr
-     * @param piece what piece is moved
+     * @param move  Represents the move.
+     * @param piece Represents the piece being moved.
      */
     public void applyMoveToBoard(Move move, Piece piece) {
         int[] moveStartingPos = piece.getCoordinates();
@@ -63,35 +63,51 @@ public class Board {
         this.setValueAt(moveEndingPos[0], moveEndingPos[1], piece);
     }
 
-
+    /**
+     * Displays the board.
+     * 
+     * @param board         Represents the board.
+     * @param possibleMoves Represents the possible moves.
+     */
     public static void displayBoard(Board board, Move[] possibleMoves) {
         RunCheckers.clearScreen();
 
-        for(int y = -1; y < board.size; y++) {
-            for(int x = -1; x < board.size; x++) {
-                if(y == -1) {
-                    if(x != -1) System.out.print("-" + (char)(x + 65) + "- ");
+        for (int y = -1; y < board.size; y++) {
+            for (int x = -1; x < board.size; x++) {
+                if (y == -1) {
+                    if (x != -1)
+                        System.out.print("-" + (char) (x + 65) + "- ");
                     else
                         System.out.print("     ");
-                } else if(x == -1) {
-                    if(y != -1) System.out.print("-" + (y + 1) + "- ");
+                } else if (x == -1) {
+                    if (y != -1)
+                        System.out.print("-" + (y + 1) + "- ");
                 } else {
                     Piece thisPiece = board.getValueAt(x, y);
 
-                    if(possibleMoves != null) {
+                    if (possibleMoves != null) {
                         boolean moveFound = false;
 
                         moveFound = BoolMove(moveFound, possibleMoves, x, y);
-                        if(moveFound) continue;
+                        if (moveFound)
+                            continue;
                     }
-                    PrintSpaces(thisPiece, board, x, y);
+                    PrintSquares(thisPiece, board, x, y);
                 }
             }
             System.out.println();
         }
     }
 
-    public static void PrintSpaces(Piece thisPiece, Board board, int x, int y) {
+    /**
+     * Prints spaces, pieces, and the checkerboard spaces on the board.
+     * 
+     * @param thisPiece Represents the selected piece.
+     * @param board     Represents the board.
+     * @param x         Represents the columns of the board.
+     * @param y         Represents the rows of the board.
+     */
+    public static void PrintSquares(Piece thisPiece, Board board, int x, int y) {
         if (thisPiece != null)
             System.out.print("| " + thisPiece.getString());
         else if (board.isCheckerboardSpace(x, y))
@@ -100,6 +116,17 @@ public class Board {
             System.out.print("|   ");
     }
 
+    /**
+     * Places numbers on the board to represent the possible moves of a selected
+     * piece.
+     * 
+     * @param moveFound     Represents if it is a possible move from the selected
+     *                      piece.
+     * @param possibleMoves Represents the possible moves.
+     * @param x             Represents the columns of the board.
+     * @param y             Represents the rows of the board.
+     * @return
+     */
     public static boolean BoolMove(Boolean moveFound, Move[] possibleMoves, int x, int y) {
         for (int i = 0; i < possibleMoves.length; i++) {
             int[] move = possibleMoves[i].getEndingPosition();
@@ -112,21 +139,23 @@ public class Board {
     }
 
     /**
+     * Puts the piece in the place of the coordinates. Can be null if no piece is
+     * present which results in an empty space.
      * 
-     * @param x
-     * @param y
-     * @param piece
+     * @param x     Represents the x value of the piece.
+     * @param y     Represents the y value of the piece.
+     * @param piece Represents the piece to put in at the coordinates.
      */
     private void setValueAt(int x, int y, Piece piece) {
         this.board[y][x] = piece;
     }
 
-
     /**
+     * Gets the value of the space at the coordinates.
      * 
-     * @param x
-     * @param y
-     * @return
+     * @param x Represents the x value of the piece.
+     * @param y Represents the y value of the piece.
+     * @return The value of the space at the coordinates.
      */
     public Piece getValueAt(int x, int y) {
         return this.board[y][x];
@@ -134,7 +163,7 @@ public class Board {
 
     /**
      * 
-     * @param position
+     * @param position  
      * @return
      */
     public Piece getValueAt(int position) {
@@ -145,7 +174,7 @@ public class Board {
     /**
      * 
      * @param position
-     * @return
+     * @return 
      */
     public int[] getCoordinatesFromPosition(int position) {
         int[] coords = new int[2];
@@ -156,8 +185,9 @@ public class Board {
 
     /**
      * 
-     * @param x
-     * @param y
+     * 
+     * @param x Represents the columns of the board.
+     * @param y Represents the rows of the board.
      * @return
      */
     public int getPositionFromCoordinates(int x, int y) {
@@ -165,9 +195,10 @@ public class Board {
     }
 
     /**
+     * Checks if it is a checkerboard space.
      * 
-     * @param x
-     * @param y
+     * @param x Represents the columns of the board.
+     * @param y Represents the rows of the board.
      * @return
      */
     public boolean isCheckerboardSpace(int x, int y) {
@@ -176,8 +207,8 @@ public class Board {
 
     /**
      * 
-     * @param x
-     * @param y
+     * @param x Represents the columns of the board.
+     * @param y Represents the rows of the board.
      * @return
      */
     public boolean isOverEdge(int x, int y) {
@@ -194,18 +225,38 @@ public class Board {
         return this.isOverEdge(coords[0], coords[1]);
     }
 
+    /**
+     * Gets the board.
+     * 
+     * @return the board.
+     */
     public Piece[][] getBoard() {
         return board;
     }
 
+    /**
+     * Sets the board
+     * 
+     * @param board Represent the board.
+     */
     public void setBoard(Piece[][] board) {
         this.board = board;
     }
 
+    /**
+     * Gets the size of the board.
+     * 
+     * @return the size of the board.
+     */
     public int getSize() {
         return size;
     }
 
+    /**
+     *  Sets the size of the board.
+     * 
+     * @param size Represents the size of the board.
+     */
     public void setSize(int size) {
         this.size = size;
     }
