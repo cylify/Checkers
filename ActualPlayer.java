@@ -93,7 +93,7 @@ public class ActualPlayer extends Player {
     }
 
 
-    private Move getMoveFromUser(Move[] possibleMoves) throws IllegalArgumentException {
+    private Move getMoveFromUser(Move[] possibleMoves) throws IllegalArgumentException, InputMismatchException {
         int moveNum;
 
         while(true) {       
