@@ -189,7 +189,6 @@ public class Piece {
                 }
             }
         }
-
         // If there are moves, then shorten and return ArrayList as normal Array
         if(!moves.isEmpty()) {
             moves.trimToSize();
@@ -199,6 +198,7 @@ public class Piece {
             return null;
 		}
     }
+
 
     public int getX() {
         return x;
@@ -218,10 +218,6 @@ public class Piece {
 
     public boolean isKing() {
         return isKing;
-    }
-
-    public void setKing(boolean isKing) {
-        this.isKing = isKing;
     }
 
     public boolean isWhite() {
