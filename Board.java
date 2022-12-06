@@ -39,9 +39,9 @@ public class Board {
     }
 
     /**
-     * Apply move of piece to board.
+     * Applies move of piece to the board.
      * 
-     * @param move get move
+     * @param move Repr
      * @param piece what piece is moved
      */
     public void applyMoveToBoard(Move move, Piece piece) {
