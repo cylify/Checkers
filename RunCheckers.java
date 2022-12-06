@@ -5,7 +5,7 @@ public class RunCheckers {
     public static final int SIZE = 8;
     private static Scanner in = new Scanner(System.in);
     private static boolean isPlayer1 = true;
-    private static boolean endGameNow = false;
+    private static boolean killGame = false;
     
     public static void main(String[] args) {
         // Create board
@@ -71,7 +71,7 @@ public class RunCheckers {
                 case "2":
                     return false;
                 case "exit":
-                    endGameNow();
+                    killGame();
                     return true;
             }
         }
@@ -84,7 +84,7 @@ public class RunCheckers {
      */
     private static boolean endGame(Board board) {
         // Safety so if you want to end, it ends immediately
-        if(endGameNow) {
+        if(killGame) {
             return true;
         } else {
             // For each movable piece
@@ -120,8 +120,8 @@ public class RunCheckers {
     /**
      * Ends game
      */
-    public static void endGameNow() {
-        endGameNow = true;
+    public static void killGame() {
+        killGame = true;
     }
     
     /**

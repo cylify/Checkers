@@ -154,6 +154,19 @@ public class Piece {
         if(this.isKing)
             rowsToCheck = 2;
             
+        moves = getMoves(startingY, yIncrement, rowsToCheck, board, precedingMove, moves);
+        
+        // If there are moves, then shorten and return ArrayList as normal Array
+        if(!moves.isEmpty()) {
+            moves.trimToSize();
+            return moves.toArray(new Move[1]);
+        } else {
+            // Otherwise return null to show no moves
+            return null;
+		}
+    }
+
+    public ArrayList<Move> getMoves(int startingY, int yIncrement, int rowsToCheck, Board board, Move precedingMove, ArrayList<Move> moves) {
         // Iterate over 4 spaces where non-jumping moves are possible
         for(int x = this.x - 2; x <= this.x + 2; x += 4) {
             int y = startingY - yIncrement;
@@ -189,14 +202,7 @@ public class Piece {
                 }
             }
         }
-        // If there are moves, then shorten and return ArrayList as normal Array
-        if(!moves.isEmpty()) {
-            moves.trimToSize();
-            return moves.toArray(new Move[1]);
-        } else {
-            // Otherwise return null to show no moves
-            return null;
-		}
+        return moves;
     }
 
 

@@ -1,3 +1,4 @@
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class ActualPlayer extends Player {
@@ -51,25 +52,13 @@ public class ActualPlayer extends Player {
             try {    
                 raw = in.nextLine().toLowerCase();
                 if(raw.equalsIgnoreCase("exit")) {
-                    RunCheckers.endGameNow();
+                    RunCheckers.killGame();
                     return null;
                 } else if (raw.length() < 2)
                 throw new IllegalArgumentException("Not valid input");  
                     
-                char letterChar = raw.charAt(0);
-                char numberChar = raw.charAt(1);
-                if (letterChar < 97) {
-                    letterChar = numberChar;
-                    numberChar = raw.charAt(0);
-                }   
-                                
-                int x = letterChar - 97;
-                int y = numberChar - 48 - 1;
-
-                if (board.isOverEdge(x, y))
-                throw new IllegalArgumentException("Not valid input");               
-
-                Piece userPiece = board.getValueAt(x, y);
+                Piece userPiece = null;
+                userPiece = getPiece(raw, board, userPiece);
 
                 if(userPiece == null)
                     System.out.println("There is no piece there!\n");
@@ -84,22 +73,46 @@ public class ActualPlayer extends Player {
         }
     }
 
+    public Piece getPiece(String raw, Board board, Piece userPiece) {
+        char letterChar = raw.charAt(0);
+            char numberChar = raw.charAt(1);
+            if (letterChar < 97) {
+                letterChar = numberChar;
+                numberChar = raw.charAt(0);
+            }   
+                            
+            int x = letterChar - 97;
+            int y = numberChar - 48 - 1;
+
+            if (board.isOverEdge(x, y))
+                throw new IllegalArgumentException("Not valid input");
+
+            userPiece = board.getValueAt(x, y);
+
+            return userPiece;
+    }
+
 
     private Move getMoveFromUser(Move[] possibleMoves) throws IllegalArgumentException {
         int moveNum;
 
-        while (true) {       
+        while(true) {       
             System.out.println(getColour() + ", please select a move the its number (enter 0 to go back):");
             try {
-                moveNum = in.nextInt();
-                in.nextLine();
+                try {
+                    moveNum = in.nextInt();
+                    in.nextLine();
 
-                if(moveNum == 0) {
-                    return null;
-                } else if (moveNum > possibleMoves.length)
-                    throw new IllegalArgumentException("Not valid input");                    
+                    if(moveNum == 0) {
+                        return null;
+                    } else if (moveNum > possibleMoves.length)
+                        throw new IllegalArgumentException("Not valid input");                    
 
-                return possibleMoves[moveNum - 1];
+                    return possibleMoves[moveNum - 1];
+                } catch (InputMismatchException e) {
+                    System.out.println("Please enter a valid input type.");
+                    in.nextLine();
+                }
             } catch (IllegalArgumentException e) {
                System.out.println("Please enter one of the numbers on the board or 0 to exit.");
                in.nextLine();
