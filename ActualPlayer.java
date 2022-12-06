@@ -15,7 +15,7 @@ public class ActualPlayer extends Player {
     }
 
     /**
-     * 
+     * Gets move and applies move onto board.
      * 
      * @param board Represents the board.
      * @return the board.

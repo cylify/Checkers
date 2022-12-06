@@ -64,7 +64,7 @@ public class Computer extends Player {
     }
 
     /**
-     * 
+     * Get best moves for pieces in map
      * @param possibleChoices all possible moves for each piece
      * @param furthestBackwardPiece 
      * @param furthestForwardPiece
@@ -106,7 +106,7 @@ public class Computer extends Player {
 
 
     /**
-     * Helper method
+     * Helper method to check if piece is furthest back or forward
      * @param thisPieceY
      * @param furthestBackwardPiece
      * @param furthestForwardPiece

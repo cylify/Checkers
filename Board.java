@@ -167,9 +167,10 @@ public class Board {
     }
 
     /**
+     * Gets the value at the coordinates.
      * 
-     * @param position  
-     * @return
+     * @param position Represents the number index to the top left.
+     * @return the value at the coordinates.
      */
     public Piece getValueAt(int position) {
         int[] coords = getCoordinatesFromPosition(position);
@@ -177,9 +178,10 @@ public class Board {
     }
 
     /**
+     * Gets the coordinates from the position.
      * 
-     * @param position
-     * @return 
+     * @param position Represents the number index to the top left.
+     * @return the coordinates.
      */
     public int[] getCoordinatesFromPosition(int position) {
         int[] coords = new int[2];
@@ -189,11 +191,11 @@ public class Board {
     }
 
     /**
-     * 
+     * Gets the position to from the coordinates.
      * 
      * @param x Represents the columns of the board.
      * @param y Represents the rows of the board.
-     * @return
+     * @return the position.
      */
     public int getPositionFromCoordinates(int x, int y) {
         return this.size * y + x;
@@ -211,10 +213,11 @@ public class Board {
     }
 
     /**
+     * Checks to see if the 
      * 
      * @param x Represents the columns of the board.
      * @param y Represents the rows of the board.
-     * @return
+     * @return 
      */
     public boolean isOverEdge(int x, int y) {
         return (x < 0 || x >= this.size || y < 0 || y >= this.size);
@@ -222,7 +225,7 @@ public class Board {
 
     /**
      * 
-     * @param position
+     * @param position Represents the number index to the top left.
      * @return
      */
     public boolean isOverEdge(int position) {
