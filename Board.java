@@ -170,7 +170,7 @@ public class Board {
      * Gets the value at the coordinates.
      * 
      * @param position Represents the number index to the top left.
-     * @return the value at the coordinates.
+     * @return Returns piece at position.
      */
     public Piece getValueAt(int position) {
         int[] coords = getCoordinatesFromPosition(position);
@@ -181,7 +181,7 @@ public class Board {
      * Gets the coordinates from the position.
      * 
      * @param position Represents the number index to the top left.
-     * @return the coordinates.
+     * @return returns a two part array of the coordinates.
      */
     public int[] getCoordinatesFromPosition(int position) {
         int[] coords = new int[2];
@@ -193,8 +193,8 @@ public class Board {
     /**
      * Gets the position to from the coordinates.
      * 
-     * @param x Represents the columns of the board.
-     * @param y Represents the rows of the board.
+     * @param x Represents the x coordinate.
+     * @param y Represents the y coordinate.
      * @return the position.
      */
     public int getPositionFromCoordinates(int x, int y) {
@@ -204,8 +204,8 @@ public class Board {
     /**
      * Checks if it is a checkerboard space.
      * 
-     * @param x Represents the columns of the board.
-     * @param y Represents the rows of the board.
+     * @param x Represents the x position on the board.
+     * @param y Represents the y position on the board.
      * @return
      */
     public boolean isCheckerboardSpace(int x, int y) {
@@ -213,20 +213,21 @@ public class Board {
     }
 
     /**
-     * Checks to see if the 
+     * Checks if the coordinates are outside the range of the board.
      * 
-     * @param x Represents the columns of the board.
-     * @param y Represents the rows of the board.
-     * @return 
+     * @param x Represents the x coordinate.
+     * @param y Represents the y coordinate.
+     * @return Returns if coords is over edge of board or not.
      */
     public boolean isOverEdge(int x, int y) {
         return (x < 0 || x >= this.size || y < 0 || y >= this.size);
     }
 
     /**
+     * Checks if the position is outside the range of the board.
      * 
      * @param position Represents the number index to the top left.
-     * @return
+     * @return Returns if position is over edge of board or not.
      */
     public boolean isOverEdge(int position) {
         int[] coords = getCoordinatesFromPosition(position);
@@ -261,7 +262,7 @@ public class Board {
     }
 
     /**
-     *  Sets the size of the board.
+     * Sets the size of the board.
      * 
      * @param size Represents the size of the board.
      */
